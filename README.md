@@ -24,7 +24,7 @@ Tools and Technologies
 perf: Linux profiling tool for measuring hardware events.
 Intel Pin: A dynamic binary instrumentation framework.
 
-Deliverables
+Deliverables\n
 Profiling data and analysis report.
 Custom Pin tools:
 inst_count.cpp: Counts instructions executed.
