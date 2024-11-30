@@ -1,4 +1,4 @@
-This project focused on profiling, instrumentation, and performance analysis to identify bottlenecks in application runtime and memory complexity using perf and Intel's Pin.
+This project focused on profiling, instrumentation, and performance analysis to identify bottlenecks in application runtime and memory complexity using perf and Intel's Pin. It was completed for Princeton University's COS375 course: Introduction to Computer Architecture.
 
 Part 1. Profiling with perf  
 Measure hardware events (e.g., CPU cycles, cache misses).  
