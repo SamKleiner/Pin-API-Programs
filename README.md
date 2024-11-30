@@ -3,11 +3,13 @@ This project focused on profiling, instrumentation, and performance analysis to 
 Part 1. Profiling with perf
 Measure hardware events (e.g., CPU cycles, cache misses).
 Gather performance statistics for Sum and Fibonacci programs.
+
 Part 2. Instrumentation with Pin
 Develop tools to:
 Count dynamic instruction execution per function.
 Generate function call graphs.
 Track memory access patterns during execution.
+
 Part 3. Performance Analysis
 Compare execution times and cache performance.
 Analyze runtime complexity and resource utilization.
