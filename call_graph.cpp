@@ -1,21 +1,18 @@
 /*
  * Copyright 2002-2020 Intel Corporation.
  * 
- * This software is provided to you as Sample Source Code as defined in 
-the accompanying
- * End User License Agreement for the Intel(R) Software Development 
-Products ("Agreement")
+ * This software is provided to you as Sample Source Code as defined in the accompanying
+ * End User License Agreement for the Intel(R) Software Development Products ("Agreement")
  * section 1.L.
  * 
- * This software and the related documents are provided as is, with no 
-express or implied
+ * This software and the related documents are provided as is, with no express or implied
  * warranties, other than those that are expressly stated in the License.
  */
 
 /*! @file
- *  This file contains an ISA-portable PIN tool for counting dynamic 
-instructions
+ *  This file contains an ISA-portable PIN tool for counting dynamic instructions
  */
+/* Code structure provided by COS375 */
 
 #include "pin.H"
 #include <iostream>
@@ -26,49 +23,29 @@ using std::endl;
 using std::string;
 using std::stack;
 
-/* ===================================================================== 
-*/
+/* ===================================================================== */
 /* Global Variables */
-/* ===================================================================== 
-*/
+/* ===================================================================== */
 
-// COS375 TIP: Add global variables here 
 string routineName;
 bool foundMain = false;
 FILE *outFile;
 stack<string> callStack;
 
-/* ===================================================================== 
-*/
-/* Function to do indentation correctly then print rountine - CHECK OH 
-only first arg??? */
-/* ===================================================================== 
-*/
-void Print(const string& routineName, ADDRINT firstArg) // do space based 
-on pops but stack is lifo, need queue
+/* ===================================================================== */
+
+void Print(const string& routineName, ADDRINT firstArg)
 {
-    for (size_t i = 0; i < callStack.size(); ++i) // need to start with 
-one
+    for (size_t i = 0; i < callStack.size(); ++i)
     {
         fprintf(outFile, " ");
     }
-    fprintf(outFile, "%s(%lu,...)\n", routineName.c_str(), firstArg); // 
-only first arg
+    fprintf(outFile, "%s(%lu,...)\n", routineName.c_str(), firstArg);
 }
 
-/* ===================================================================== 
-*/
-/* Commandline Switches */
-/* ===================================================================== 
-*/
-
-
-/* ===================================================================== 
-*/
-/* Print Help Message                                                    
-*/
-/* ===================================================================== 
-*/
+/* ===================================================================== */
+/* Print Help Message */
+/* ===================================================================== */
 
 INT32 Usage()
 {
@@ -83,20 +60,18 @@ INT32 Usage()
     return -1;
 }
 
-/* ===================================================================== 
-*/
+/* ===================================================================== */
 
 void executeAfterRoutine()
 {
     if (foundMain){
        if (!callStack.empty()) {
         callStack.pop();
-    }
+       }
     }
 }
 
-/* ===================================================================== 
-*/
+/* ===================================================================== */
 // A callback function executed at runtime before executing first
 // instruction in a function
 void executeBeforeRoutine(ADDRINT ip, ADDRINT firstArg)
@@ -113,7 +88,6 @@ void executeBeforeRoutine(ADDRINT ip, ADDRINT firstArg)
         return;
     }
 
-    //COS375: Add your code here
     callStack.push(routineName);
 
     // Print the current function call
@@ -125,8 +99,7 @@ void executeBeforeRoutine(ADDRINT ip, ADDRINT firstArg)
     }
 }
 
-/* ===================================================================== 
-*/
+/* ===================================================================== */
 // Function executed everytime a new routine is found
 VOID Routine(RTN rtn, VOID *v)
 {
@@ -135,34 +108,25 @@ VOID Routine(RTN rtn, VOID *v)
     //executed just before executing first instruction in the routine
     //at runtime
     RTN_InsertCall(rtn, IPOINT_BEFORE, (AFUNPTR)executeBeforeRoutine, 
-IARG_INST_PTR, IARG_FUNCARG_ENTRYPOINT_VALUE, 0, IARG_END);
+        IARG_INST_PTR, IARG_FUNCARG_ENTRYPOINT_VALUE, 0, IARG_END);
 
-    // pop after
     RTN_InsertCall(rtn, IPOINT_AFTER, (AFUNPTR)executeAfterRoutine, 
-IARG_END);
+        IARG_END);
     
     RTN_Close(rtn);
 }
 
-/* ===================================================================== 
-*/
+/* ===================================================================== */
 // Function executed after instrumentation
 VOID Fini(INT32 code, VOID *v)
 {
-    //COS375: Add your code here to dump instrumentation data that is 
-collected.
     fprintf(outFile,"COS375 pin tool call graph\n");
     fclose(outFile);
 }
 
-
-// DO NOT EDIT CODE AFTER THIS LINE
-/* ===================================================================== 
-*/
-/* Main                                                                  
-*/
-/* ===================================================================== 
-*/
+/* ===================================================================== */
+/* Main */
+/* ===================================================================== */
 
 int main(int argc, char *argv[])
 {
@@ -183,9 +147,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-/* ===================================================================== 
-*/
+/* ===================================================================== */
 /* eof */
-/* ===================================================================== 
-*/
+/* ===================================================================== */
 
